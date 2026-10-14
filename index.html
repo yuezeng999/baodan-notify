@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家庭保单管理中心</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+    <span>家庭保单管理中心</span>
+  </div>
+  <div class="header-right">
+    <span class="header-badge" id="headerTotal">共 0 份保单</span>
+    <span class="header-badge alert" id="headerAlert" style="display:none">⏰ 0 份即将到期</span>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">总览</div>
+      <div class="sidebar-item active" data-view="all"><span class="icon">📋</span><span>全部保单</span><span class="count" id="cntAll">0</span></div>
+      <div class="sidebar-item" data-view="alert"><span class="icon">⏰</span><span>到期提醒</span><span class="count" id="cntAlert">0</span></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">按险种</div>
+      <div class="sidebar-item" data-cat="重疾险"><span class="icon">🛡️</span><span>重疾险</span><span class="count" id="cat-重疾险">0</span></div>
+      <div class="sidebar-item" data-cat="医疗险"><span class="icon">🏥</span><span>医疗险</span><span class="count" id="cat-医疗险">0</span></div>
+      <div class="sidebar-item" data-cat="寿险"><span class="icon">❤️</span><span>寿险</span><span class="count" id="cat-寿险">0</span></div>
+      <div class="sidebar-item" data-cat="意外险"><span class="icon">🛡️</span><span>意外险</span><span class="count" id="cat-意外险">0</span></div>
+      <div class="sidebar-item" data-cat="其他"><span class="icon">📁</span><span>其他</span><span class="count" id="cat-其他">0</span></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">按成员</div>
+      <div class="sidebar-item member-item" data-member="岳元曦"><span class="icon">👩</span><span>岳元曦（女儿）</span><span class="count" id="mem-岳元曦">0</span></div>
+      <div class="sidebar-item member-item" data-member="岳元琪"><span class="icon">👦</span><span>岳元琪（女儿）</span><span class="count" id="mem-岳元琪">0</span></div>
+      <div class="sidebar-item member-item" data-member="岳增"><span class="icon">👨</span><span>岳增（本人）</span><span class="count" id="mem-岳增">0</span></div>
+      <div class="sidebar-item member-item" data-member="罗伟芹"><span class="icon">👩</span><span>罗伟芹（配偶）</span><span class="count" id="mem-罗伟芹">0</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="toolbar">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1114 9.5 4.5 4.5 0 119.5 14z"/></svg>
+        <input type="text" id="searchInput" placeholder="搜索保单号、险种、被保人、保司...">
+      </div>
+      <button class="btn btn-primary" id="addBtn">＋ 新增保单</button>
+      <button class="btn btn-outline" id="exportBtn">⬇ 导出JSON</button>
+      <button class="btn btn-outline" id="importBtn">⬆ 导入JSON</button>
+      <input type="file" id="importFile" accept=".json" style="display:none">
+    </div>
+
+    <div class="policy-table-wrap">
+      <table class="policy-table">
+        <thead>
+          <tr>
+            <th data-sort="productName">保单名称</th>
+            <th data-sort="insured">被保人</th>
+            <th data-sort="category">险种</th>
+            <th data-sort="insurer">保险公司</th>
+            <th data-sort="annualPremium">年保费(元)</th>
+            <th data-sort="nextPaymentDate">下次缴费</th>
+            <th data-sort="expiryDate">保障到期</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="policyBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">没有匹配的保单，点击「＋ 新增保单」添加</div>
+    </div>
+  </main>
+</div>
+
+<!-- 详情/编辑弹窗 -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle">保单详情</h2>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
